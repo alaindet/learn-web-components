@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanilla JS - Web Components</title>
   <script src="./tooltip.js"></script>
+  <script src="./confirm-link.js"></script>
 </head>
 <body>
 
-  <p>
-    <my-tooltip text="I am a tooltip">Web Components</my-tooltip>
-    are awesome!
-  </p>
+  <section>
+    <my-tooltip text="I am a tooltip">Web Components</my-tooltip> are awesome!
+  </section>
+
+  <section>
+    <a href="https://www.google.com">Google</a>
+    <a href="https://www.google.com" is="my-confirm-link">Google (confirm)</a>
+  </section>
 
 </body>
 </html>
