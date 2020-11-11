@@ -2,8 +2,6 @@ class MyVisibilityToggle extends HTMLElement {
 
   constructor() {
     super();
-    this._toggle;
-    this._content;
     this._isVisible = true;
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
@@ -34,15 +32,12 @@ class MyVisibilityToggle extends HTMLElement {
         <slot>Toggleable content</slot>
       </span>
     `;
+    this._toggle = this.shadowRoot.querySelector('#toggle');
+    this._content = this.shadowRoot.querySelector('#content');
+    this._toggle.addEventListener('click', (e) => this._toggleVisibility(e));
   }
 
   connectedCallback() {
-
-    this._toggle = this.shadowRoot.querySelector('#toggle');
-    this._content = this.shadowRoot.querySelector('#content');
-
-    this._toggle.addEventListener('click', (e) => this._toggleVisibility(e));
-
     if (this.hasAttribute('visible') && this.getAttribute('visible') === 'false') {
       this._toggleVisibility();
     }
