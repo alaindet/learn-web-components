@@ -7,20 +7,34 @@ class MyTooltip extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        /* Style any slotted content */
-        /* ::slotted(*) {} */
-        ::slotted(.highlight) {
-          border: 1px dashed #8080ff;
+        :host {
+          border-bottom: 1px dashed #8080ff;
+          padding: 0 0.5rem;
+        }
+        ::slotted(*) {
+          font-style: italic;
         }
         div {
-          background-color: black;
-          color: white;
+          background-color: white;
+          border: 1px dashed #8080ff;
+          box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
           position: absolute;
+          padding: 0.25rem 0.5rem;
           z-index: 2;
+        }
+        .icon {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 1rem;
+          height: 1rem;
+          font-size: 0.9rem;
+          color: #8080ff;
+          font-weight: bold;
         }
       </style>
       <slot>Default tooltip</slot>
-      <span>(?)</span>
+      <span class="icon">?</span>
     `;
   }
 
