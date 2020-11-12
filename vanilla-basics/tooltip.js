@@ -7,8 +7,9 @@ class MyTooltip extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        :host {
-          color: #6060cc;
+        /* Style any slotted content */
+        /* ::slotted(*) {} */
+        ::slotted(.highlight) {
           border: 1px dashed #8080ff;
         }
         div {

@@ -1,0 +1,5 @@
+- Slotted content is rendered into the Shadow DOM but its node is not moved into the Shadow DOM; it's a sibling node instead
+- You can style slots of the Shadow DOM with the `::slotted()` selector
+- `::slotted()` accepts a CSS selector, like `::slotted(.foo)` **BUT** it can only accept one level of nesting and cannot style any further, aka `::slotted(span a)` does not work
+- `::slotted(*)` styles **ANY** slotted content
+- Any styling declared into the Light DOM and applied to the slotted content
