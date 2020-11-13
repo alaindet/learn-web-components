@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanilla JS - Web Components</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      --color-primary: rgb(255, 0, 76);
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  </style>
 </head>
 <body>
 
@@ -15,7 +24,7 @@
   </section>
 
   <section>
-    <my-tooltip text="I am a tooltip" color="green">
+    <my-tooltip text="I am a tooltip" color="primary">
       <span class="highlight">Web Components</span>
     </my-tooltip>
     are awesome!

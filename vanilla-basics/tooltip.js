@@ -14,10 +14,10 @@ class MyTooltip extends HTMLElement {
           padding: 0 0.5rem;
         }
 
-        /* Applies only when host has "color" attribute equals to "green" */
-        :host([color="green"]) {
-          color: green;
-          border-color: green;
+        /* Applies only when host has "color" attribute equals to "primary" */
+        :host([color="primary"]) {
+          color: var(--color-primary, green);
+          border-color: var(--color-primary, green);
         }
 
         /* Applies only when the parents match the CSS selector */
@@ -33,10 +33,13 @@ class MyTooltip extends HTMLElement {
 
         /* The tooltip */
         div {
+          font-weight: normal;
           background-color: white;
           border: 1px dashed #8080ff;
           box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
           position: absolute;
+          top: 1.5rem;
+          left: 0.5rem;
           padding: 0.25rem 0.5rem;
           z-index: 2;
         }
