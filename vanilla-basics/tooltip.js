@@ -7,13 +7,31 @@ class MyTooltip extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
+
+        /* The host aka "my-tooltip" */
         :host {
           border-bottom: 1px dashed #8080ff;
           padding: 0 0.5rem;
         }
+
+        /* Applies only when host has "color" attribute equals to "green" */
+        :host([color="green"]) {
+          color: green;
+          border-color: green;
+        }
+
+        /* Applies only when the parents match the CSS selector */
+        :host-context(section[weight-bold]) {
+          border-bottom: 3px solid black;
+          font-weight: bold;
+        }
+
+        /* Applies to all slotted content */
         ::slotted(*) {
           font-style: italic;
         }
+
+        /* The tooltip */
         div {
           background-color: white;
           border: 1px dashed #8080ff;
@@ -22,6 +40,8 @@ class MyTooltip extends HTMLElement {
           padding: 0.25rem 0.5rem;
           z-index: 2;
         }
+
+        /* The icon */
         .icon {
           display: inline-flex;
           justify-content: center;
