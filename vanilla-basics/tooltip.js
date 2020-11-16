@@ -17,6 +17,7 @@ class MyTooltip extends HTMLElement {
         :host {
           border-bottom: 1px dashed #8080ff;
           padding: 0 0.5rem;
+          position: relative;
         }
 
         /* Applies only when host has "color" attribute equals to "primary" */
@@ -98,7 +99,7 @@ class MyTooltip extends HTMLElement {
       this.shadowRoot.appendChild(tooltipContainer);
     } else {
       if (tooltipContainer) {
-        this.shadowRoot.removeChild(tooltipContainer);  
+        this.shadowRoot.removeChild(tooltipContainer);
       }
     }
   }
