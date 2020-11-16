@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanilla JS - Web Components - Advanced</title>
+  <style>
+    html {
+      box-sizing: border-box;
+      font-size: 18px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    * {
+      box-sizing: inherit;
+    }
+    body {
+      margin: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <my-modal>This is the modal content from the light DOM</my-modal>
+  <p>Please confirm your choice</p>
+  <button id="confirm">Confirm?</button>
+
+  <script src="./modal.js"></script>
+  <script>
+    const confirmButton = document.querySelector('#confirm');
+    const confirmModal = document.querySelector('my-modal');
+    confirmButton.addEventListener('click', () => {
+      confirmModal.setAttribute('opened', '');
+    });
+  </script>
+</body>
+</html>
