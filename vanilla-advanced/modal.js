@@ -1,5 +1,9 @@
 class MyModal extends HTMLElement {
 
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -75,6 +79,20 @@ class MyModal extends HTMLElement {
         </footer>
       </div>
     `;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.shadowRoot.querySelector('#backdrop').style.opacity = 1;
+        this.shadowRoot.querySelector('#backdrop').style.pointerEvents = 'initial';
+        this.shadowRoot.querySelector('#modal').style.opacity = 1;
+        this.shadowRoot.querySelector('#modal').style.pointerEvents = 'initial';
+      }
+    }
   }
 }
 
