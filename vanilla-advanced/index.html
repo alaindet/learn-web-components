@@ -20,7 +20,10 @@
 </head>
 <body>
 
-  <my-modal>This is the modal content from the light DOM</my-modal>
+  <my-modal>
+    <h1 slot="title">My custom title</h1>
+    <span>This is the modal content from the light DOM</span>
+  </my-modal>
   <p>Please confirm your choice</p>
   <button id="confirm">Confirm?</button>
 
@@ -29,7 +32,9 @@
     const confirmButton = document.querySelector('#confirm');
     const confirmModal = document.querySelector('my-modal');
     confirmButton.addEventListener('click', () => {
-      confirmModal.setAttribute('opened', '');
+      if (!confirmModal.isOpen) {
+        confirmModal.open();
+      }
     });
   </script>
 </body>
