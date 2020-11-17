@@ -89,13 +89,6 @@ class MyModal extends HTMLElement {
         </footer>
       </div>
     `;
-    // const slots = this.shadowRoot.querySelectorAll('slot');
-    // slots[1].addEventListener(
-    //   'slotchange',
-    //   (event) => {
-    //     console.dir(slots[1].assignedNodes());
-    //   }
-    // );
     const cancelButton = this.shadowRoot.querySelector('#cancel-button');
     const confirmButton = this.shadowRoot.querySelector('#confirm-button');
     cancelButton.addEventListener('click', this._cancel.bind(this));
@@ -118,22 +111,16 @@ class MyModal extends HTMLElement {
     }
   }
 
-  _cancel (event) {
+  _cancel () {
     this.hide();
-    const cancelEvent = new Event('my-modal-cancel',  {
-      bubbles: true, // Bubbles up the Shadow DOM
-      composed: true, // Leaves the Shadow DOM while bubbling
-    });
-    event.target.dispatchEvent(cancelEvent);
+    const cancelEvent = new Event('my-modal-cancel');
+    this.dispatchEvent(cancelEvent);
   }
 
-  _confirm(event) {
+  _confirm() {
     this.hide();
-    const confirmEvent = new Event('my-modal-confirm', {
-      bubbles: true, // Bubbles up the Shadow DOM
-      composed: true, // Leaves the Shadow DOM while bubbling
-    });
-    event.target.dispatchEvent(confirmEvent);
+    const confirmEvent = new Event('my-modal-confirm');
+    this.dispatchEvent(confirmEvent);
   }
 }
 
