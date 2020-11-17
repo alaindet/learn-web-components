@@ -63,6 +63,9 @@ class MyModal extends HTMLElement {
           padding: 1rem 0;
         }
         #modal-footer {
+          border-top: 1px solid #ccc;
+          margin-top: 1rem;
+          padding-top: 1rem;
           display: flex;
           justify-content: flex-end;
         }
@@ -91,8 +94,10 @@ class MyModal extends HTMLElement {
     `;
     const cancelButton = this.shadowRoot.querySelector('#cancel-button');
     const confirmButton = this.shadowRoot.querySelector('#confirm-button');
+    const backdrop = this.shadowRoot.querySelector('#backdrop');
     cancelButton.addEventListener('click', this._cancel.bind(this));
     confirmButton.addEventListener('click', this._confirm.bind(this));
+    backdrop.addEventListener('click', this._cancel.bind(this));
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
