@@ -9,7 +9,17 @@
   </head>
   <body>
 
-    <my-side-drawer></my-side-drawer>
+    <my-side-drawer
+      heading="The side drawer title"
+    ></my-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('my-side-drawer');
+      setTimeout(
+        () => sideDrawer.heading = 'Changed side drawer title',
+        3000
+      );
+    </script>
 
   </body>
 </html>
