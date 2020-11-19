@@ -15,6 +15,8 @@
   </head>
   <body>
 
+    <button id="side-drawer-trigger">Open drawer</button>
+
     <my-side-drawer heading="The side drawer title">
       <nav class="side-drawer-nav">
         <ul>
@@ -24,6 +26,16 @@
         </ul>
       </nav>
     </my-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('my-side-drawer');
+      const sideDrawerTrigger = document.querySelector('#side-drawer-trigger');
+      sideDrawerTrigger.addEventListener('click', () => {
+        if (!sideDrawer.open) {
+          sideDrawer.open = true;
+        }
+      });
+    </script>
 
   </body>
 </html>
