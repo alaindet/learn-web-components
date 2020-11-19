@@ -6,20 +6,24 @@
     <title>Stencil Component Starter</title>
     <script type="module" src="/build/stencil-basics.esm.js"></script>
     <script nomodule src="/build/stencil-basics.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+      .side-drawer-nav ul {
+        list-style: none;
+      }
+    </style>
   </head>
   <body>
 
-    <my-side-drawer
-      heading="The side drawer title"
-    ></my-side-drawer>
-
-    <script>
-      const sideDrawer = document.querySelector('my-side-drawer');
-      setTimeout(
-        () => sideDrawer.heading = 'Changed side drawer title',
-        3000
-      );
-    </script>
+    <my-side-drawer heading="The side drawer title">
+      <nav class="side-drawer-nav">
+        <ul>
+          <li><a href="/">Foo</a></li>
+          <li><a href="/">Bar</a></li>
+          <li><a href="/">Baz</a></li>
+        </ul>
+      </nav>
+    </my-side-drawer>
 
   </body>
 </html>
