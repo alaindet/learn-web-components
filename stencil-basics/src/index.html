@@ -30,11 +30,7 @@
     <script>
       const sideDrawer = document.querySelector('my-side-drawer');
       const sideDrawerTrigger = document.querySelector('#side-drawer-trigger');
-      sideDrawerTrigger.addEventListener('click', () => {
-        if (!sideDrawer.open) {
-          sideDrawer.open = true;
-        }
-      });
+      sideDrawerTrigger.addEventListener('click', () => sideDrawer.open());
     </script>
 
   </body>

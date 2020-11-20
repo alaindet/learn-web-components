@@ -21,8 +21,10 @@ export namespace Components {
         "middle": string;
     }
     interface MySideDrawer {
+        "close": () => Promise<void>;
         "heading": string;
-        "open": boolean;
+        "isOpen": boolean;
+        "open": () => Promise<void>;
     }
 }
 declare global {
@@ -60,7 +62,7 @@ declare namespace LocalJSX {
     }
     interface MySideDrawer {
         "heading"?: string;
-        "open"?: boolean;
+        "isOpen"?: boolean;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
