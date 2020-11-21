@@ -21,11 +21,13 @@ export class SideDrawer {
     this.currentTab = tab;
   }
 
-  @Method() async open(): Promise<void> {
+  @Method()
+  open(): void {
     this.isOpen = true;
   }
 
-  @Method() async close(): Promise<void> {
+  @Method()
+  close(): void {
     this.isOpen = false;
   }
 
@@ -51,11 +53,17 @@ export class SideDrawer {
 
     const mainContent = this.getSideDrawerContent(this.currentTab);
 
-    return (
+    return [
+      <div
+        class="backdrop"
+        onClick={this.onCloseDrawer.bind(this)}
+      />,
       <aside>
         <header>
           <h1>{this.heading}</h1>
-          <button onClick={this.onCloseDrawer.bind(this)}>Close</button>
+          <button onClick={this.onCloseDrawer.bind(this)}>
+            &times;
+          </button>
         </header>
         <section id="tabs">
           <button
@@ -75,6 +83,6 @@ export class SideDrawer {
           {mainContent}
         </main>
       </aside>
-    );
+    ];
   }
 }

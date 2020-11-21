@@ -2,10 +2,12 @@ aside {
   position: fixed;
   top: 0;
   left: -100%;
-  width: 30rem;
-  max-width: 90%;
+  width: 20rem;
+  max-width: 80%;
   height: 100vh;
-  background-color: #f2f2f2;
+  padding: 1rem;
+  background-color: #ffffff;
+  z-index: 2;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   transition: 0.2s left ease-in-out;
 }
@@ -15,8 +17,14 @@ aside {
 }
 
 header {
-  padding: 1rem;
-  background-color: rgba(0,0,0,0.25);
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
@@ -24,26 +32,72 @@ header h1 {
   margin: 0;
 }
 
-#tabs {
+header button {
+  border: 0;
+  font-size: 1.5rem;
+  position: relative;
+  top: 0.2rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgba(0,0,0,0.1);
+  transition: 0.15s background-color linear;
+}
+
+header button:hover {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+header button:focus {
+  outline: none;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#tabs {
+  display: flex;
+  justify-content: space-between;
 }
 
 #tabs button {
-  flex-basis: 35%;
-  padding: 0.33rem 0.5rem;
-  border: 1px solid #333;
+  flex-basis: 50%;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   background-color: transparent;
+  border: 1px dashed transparent;
+  transition: 0.15s border-bottom-color ease-in-out;
 }
 
 #tabs button.active,
 #tabs button:hover {
-  background-color: #333;
-  color: #ccc;
+  border-bottom: 2px solid #333333 !important;
 }
 
 #tabs button:focus {
   outline: none;
-  border-color: #a0a0ff;
+  border-color: #ccc;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.25);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s opacity ease-in-out;
+}
+
+:host([is-open]) .backdrop {
+  opacity: 1;
+  pointer-events: all;
 }
