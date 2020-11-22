@@ -18,12 +18,14 @@ export class PokeSearch {
   @State() error: string;
   @State() pokemon: PokemonData | null = null;
 
+  pokemonNameRef: HTMLInputElement;
+
   private baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
   onFetchPokemonData(event: Event): void {
     event.preventDefault();
     this.loading = true;
-    const pokemon = this.getInputElement().value.toLowerCase();
+    const pokemon = this.pokemonNameRef.value.toLowerCase();
     const url = `${this.baseUrl}/${pokemon}`;
     fetch(url)
       .then(checkHttpStatus)
@@ -43,14 +45,8 @@ export class PokeSearch {
   onPokemonCancel(event: MouseEvent): void {
     event.preventDefault();
     this.pokemon = null;
-    const input = this.getInputElement();
-    input.value = '';
-    input.focus();
-  }
-
-  private getInputElement(): HTMLInputElement {
-    const input = this.el.shadowRoot.querySelector('#pokemon-name');
-    return input as HTMLInputElement;
+    this.pokemonNameRef.value = '';
+    this.pokemonNameRef.focus();
   }
 
   private getPokemonContent() {
@@ -115,6 +111,7 @@ export class PokeSearch {
       <form onSubmit={this.onFetchPokemonData.bind(this)}>
         <input
           id="pokemon-name"
+          ref={el => this.pokemonNameRef = el}
           type="text"
           placeholder="Search..."
         />
