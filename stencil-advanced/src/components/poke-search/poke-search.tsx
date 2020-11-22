@@ -1,4 +1,4 @@
-import { Component, State, Element, Method, h } from '@stencil/core';
+import { Component, State, Element, Method, h, Prop } from '@stencil/core';
 
 import { PokemonData } from './models/pokemon-data.interface';
 import { PokemonStat } from './models/pokemon-stat.interface'
@@ -17,29 +17,50 @@ export class PokeSearch {
   @State() loading = false;
   @State() error: string;
   @State() pokemon: PokemonData | null = null;
-  @State() pokemonName: string;
+  @Prop({ attribute: 'pokemon', reflect: true, mutable: true }) pokemonName: string;
   @State() pokemonNameValid = true;
 
   private pokemonNameRef: HTMLInputElement;
   private baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
+  // Lifecycle hook
+  componentWillLoad(): void {
+    console.log('componentWillLoad');
+  }
+
+  // Lifecycle hook
+  componentDidLoad(): void {
+    if (this.pokemonName) {
+      const pokemon = this.pokemonName.toLowerCase().replace(' ', '-');
+      this.fetchPokemon(pokemon);
+    }
+  }
+
+  // Lifecycle hook
+  componentWillUpdate(): void {
+    console.log('componentWillUpdate');
+  }
+
+  // Lifecycle hook
+  componentDidUpdate(): void {
+    console.log('componentDidUpdate');
+  }
+
+  // Lifecycle hook
+  disconnectedCallback(): void {
+    console.log('disconnectedCallback');
+  }
+
   @Method()
   async focusInput(): Promise<void> {
-    console.log('focusInput');
     this.pokemonNameRef.focus();
   }
 
   onFetchPokemon(event: Event): void {
     event.preventDefault();
-    this.loading = true;
-    const pokemon = this.pokemonNameRef.value.toLowerCase();
-    const url = `${this.baseUrl}/${pokemon}`;
-    fetch(url)
-      .then(this.onFetchPokemonNotFound.bind(this))
-      .then(checkHttpStatus)
-      .then(mapToJson)
-      .then(this.onFetchPokemonSuccess.bind(this))
-      .catch(this.onFetchPokemonFailure.bind(this));
+    const pokemonRaw = this.pokemonNameRef.value;
+    const pokemon = pokemonRaw.toLowerCase().replace(' ', '-');
+    this.fetchPokemon(pokemon);
   }
 
   onPokemonNameInput(event: KeyboardEvent): void {
@@ -56,6 +77,17 @@ export class PokeSearch {
     this.pokemon = null;
     this.pokemonNameRef.value = '';
     this.pokemonNameRef.focus();
+  }
+
+  private fetchPokemon(name: string): void {
+    this.loading = true;
+    const url = `${this.baseUrl}/${name}`;
+    fetch(url)
+      .then(this.onFetchPokemonNotFound.bind(this))
+      .then(checkHttpStatus)
+      .then(mapToJson)
+      .then(this.onFetchPokemonSuccess.bind(this))
+      .catch(this.onFetchPokemonFailure.bind(this));
   }
 
   private onFetchPokemonNotFound(response: any): Promise<any> {
@@ -101,13 +133,10 @@ export class PokeSearch {
       <div class="pokemon">
         <h2>
           {capitalize(this.pokemon.name)}
-            &nbsp;
-          <a
-            class="cancel"
-            onClick={this.onPokemonCancel.bind(this)}
-          >
+          &nbsp;
+          <a class="cancel" onClick={this.onPokemonCancel.bind(this)}>
             Cancel
-            </a>
+          </a>
         </h2>
         <ul>
           <li>
@@ -115,7 +144,7 @@ export class PokeSearch {
             {this.pokemon.height / 10} m
           </li>
           <li>
-          <strong>Weight:</strong>
+            <strong>Weight:</strong>
             {this.pokemon.weight / 10} kg
           </li>
           <li>

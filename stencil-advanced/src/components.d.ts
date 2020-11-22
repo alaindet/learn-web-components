@@ -8,6 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface PokeSearch {
         "focusInput": () => Promise<void>;
+        "pokemonName": string;
     }
 }
 declare global {
@@ -23,6 +24,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface PokeSearch {
+        "pokemonName"?: string;
     }
     interface IntrinsicElements {
         "poke-search": PokeSearch;
