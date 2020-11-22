@@ -22,12 +22,12 @@ export class SideDrawer {
   }
 
   @Method()
-  open(): void {
+  async open(): Promise<void> {
     this.isOpen = true;
   }
 
   @Method()
-  close(): void {
+  async close(): Promise<void> {
     this.isOpen = false;
   }
 
