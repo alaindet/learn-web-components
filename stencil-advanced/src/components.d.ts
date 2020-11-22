@@ -6,32 +6,32 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface StockPrice {
+    interface PokeSearch {
     }
 }
 declare global {
-    interface HTMLStockPriceElement extends Components.StockPrice, HTMLStencilElement {
+    interface HTMLPokeSearchElement extends Components.PokeSearch, HTMLStencilElement {
     }
-    var HTMLStockPriceElement: {
-        prototype: HTMLStockPriceElement;
-        new (): HTMLStockPriceElement;
+    var HTMLPokeSearchElement: {
+        prototype: HTMLPokeSearchElement;
+        new (): HTMLPokeSearchElement;
     };
     interface HTMLElementTagNameMap {
-        "stock-price": HTMLStockPriceElement;
+        "poke-search": HTMLPokeSearchElement;
     }
 }
 declare namespace LocalJSX {
-    interface StockPrice {
+    interface PokeSearch {
     }
     interface IntrinsicElements {
-        "stock-price": StockPrice;
+        "poke-search": PokeSearch;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "stock-price": LocalJSX.StockPrice & JSXBase.HTMLAttributes<HTMLStockPriceElement>;
+            "poke-search": LocalJSX.PokeSearch & JSXBase.HTMLAttributes<HTMLPokeSearchElement>;
         }
     }
 }
