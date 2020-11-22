@@ -2,6 +2,7 @@
   --primary: #3b013b;
   --primary-hover: #5e005e;
   --grey: #cccccc;
+  --grey-dark: #888888;
 
   display: block;
   font-family: sans-serif;
@@ -29,6 +30,10 @@ input:focus {
   border-color: var(--primary-hover);
 }
 
+input.error {
+  border-color: red;
+}
+
 button {
   font: inherit;
   line-height: 1rem;
@@ -47,6 +52,12 @@ button:focus {
   outline: 0;
   background-color: var(--primary-hover);
   border-color: var(--primary-hover);
+}
+
+button:disabled {
+  background-color: var(--grey);
+  color: var(--grey-dark);
+  border-color: var(--grey-dark);
 }
 
 .pokemon {

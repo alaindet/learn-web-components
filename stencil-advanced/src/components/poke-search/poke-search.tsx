@@ -1,4 +1,4 @@
-import { Component, State, Element, h } from '@stencil/core';
+import { Component, State, Element, Method, h } from '@stencil/core';
 
 import { PokemonData } from './models/pokemon-data.interface';
 import { PokemonStat } from './models/pokemon-stat.interface'
@@ -17,29 +17,38 @@ export class PokeSearch {
   @State() loading = false;
   @State() error: string;
   @State() pokemon: PokemonData | null = null;
+  @State() pokemonName: string;
+  @State() pokemonNameValid = true;
 
-  pokemonNameRef: HTMLInputElement;
-
+  private pokemonNameRef: HTMLInputElement;
   private baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
-  onFetchPokemonData(event: Event): void {
+  @Method()
+  async focusInput(): Promise<void> {
+    console.log('focusInput');
+    this.pokemonNameRef.focus();
+  }
+
+  onFetchPokemon(event: Event): void {
     event.preventDefault();
     this.loading = true;
     const pokemon = this.pokemonNameRef.value.toLowerCase();
     const url = `${this.baseUrl}/${pokemon}`;
     fetch(url)
+      .then(this.onFetchPokemonNotFound.bind(this))
       .then(checkHttpStatus)
       .then(mapToJson)
-      .then((response: PokemonData): void => {
-        this.pokemon = response;
-        this.error = null;
-        this.loading = false;
-      })
-      .catch((error: Response): void => {
-        console.error(error);
-        this.error = 'Some error occurred';
-        this.loading = false;
-      });
+      .then(this.onFetchPokemonSuccess.bind(this))
+      .catch(this.onFetchPokemonFailure.bind(this));
+  }
+
+  onPokemonNameInput(event: KeyboardEvent): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.pokemonNameValid = true;
+    if (value.trim().length === 0) {
+      this.pokemonNameValid = false;
+    }
+    this.pokemonName = value;
   }
 
   onPokemonCancel(event: MouseEvent): void {
@@ -47,6 +56,28 @@ export class PokeSearch {
     this.pokemon = null;
     this.pokemonNameRef.value = '';
     this.pokemonNameRef.focus();
+  }
+
+  private onFetchPokemonNotFound(response: any): Promise<any> {
+    if (response.status === 404) {
+      this.error = 'Pokémon not found';
+      throw new Error('ERROR: Pokémon not found');
+    }
+    return response;
+  }
+
+  private onFetchPokemonSuccess(response: PokemonData): void {
+    this.pokemon = response;
+    this.error = null;
+    this.loading = false;
+  }
+
+  private onFetchPokemonFailure(error: Response): void {
+    console.error(error);
+    if (!this.error) {
+      this.error = 'Some error occurred';
+    }
+    this.loading = false;
   }
 
   private getPokemonContent() {
@@ -108,14 +139,22 @@ export class PokeSearch {
 
   render() {
     return [
-      <form onSubmit={this.onFetchPokemonData.bind(this)}>
+      <form onSubmit={this.onFetchPokemon.bind(this)}>
         <input
           id="pokemon-name"
-          ref={el => this.pokemonNameRef = el}
           type="text"
           placeholder="Search..."
+          class={this.pokemonNameValid ? '' : 'error'}
+          ref={el => this.pokemonNameRef = el}
+          value={this.pokemonName}
+          onInput={this.onPokemonNameInput.bind(this)}
         />
-        <button type="submit">Fetch</button>
+        <button
+          type="submit"
+          disabled={!this.pokemonNameValid}
+        >
+          Fetch
+        </button>
       </form>,
       this.getPokemonContent(),
     ];

@@ -13,7 +13,10 @@
     <poke-search></poke-search>
 
     <script>
-
+      document.addEventListener("DOMContentLoaded", () => {
+        const pokeSearch = document.querySelector('poke-search');
+        pokeSearch.focusInput();
+      });
     </script>
 
   </body>
