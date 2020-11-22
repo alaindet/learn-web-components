@@ -11,7 +11,7 @@ import { PokemonType } from './pokemon-type.interface';
 
 export interface PokemonData {
   abilities: PokemonAbility[];
-  baseExperience: number;
+  base_experience: number;
   forms: PokemonForm[];
   game_indices: PokemonGameIndex[];
   height: number;

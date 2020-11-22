@@ -14,7 +14,7 @@ export interface PokemonSprites {
       front_default: PokemonUrl;
       front_female: PokemonUrl | null;
     };
-    official_artwork: {
+    'official-artwork': {
       front_default: PokemonUrl;
     };
   };
