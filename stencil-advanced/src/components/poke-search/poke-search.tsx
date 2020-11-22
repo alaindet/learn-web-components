@@ -1,6 +1,7 @@
 import { Component, State, Element, h } from '@stencil/core';
 
 import { PokemonData } from './models/pokemon-data.interface';
+import { PokemonStat } from './models/pokemon-stat.interface'
 import { checkHttpStatus } from './middleware/check-http-status.middleware';
 import { mapToJson } from './middleware/map-to-json.middleware';
 import { capitalize } from './functions/capitalize.function';
@@ -83,17 +84,26 @@ export class PokeSearch {
         </h2>
         <ul>
           <li>
-            <strong>Base experience</strong>:
-              {this.pokemon.base_experience}
+            <strong>Height:</strong>
+            {this.pokemon.height / 10} m
           </li>
           <li>
-            <strong>Height</strong>:
-              {this.pokemon.height} inches
-            </li>
+          <strong>Weight:</strong>
+            {this.pokemon.weight / 10} kg
+          </li>
           <li>
-            <strong>Weight</strong>:
-              {this.pokemon.weight} pounds
-            </li>
+            <strong>Stats:</strong>
+            <ul>
+              {this.pokemon.stats.map(
+                (stat: PokemonStat, i: number) => (
+                  <li key={i}>
+                    <strong>{stat.stat.name}:</strong>
+                    {stat.base_stat}
+                  </li>
+                )
+              )}
+            </ul>
+          </li>
         </ul>
         <img src={imageSrc} alt={this.pokemon.name} />
       </div>
