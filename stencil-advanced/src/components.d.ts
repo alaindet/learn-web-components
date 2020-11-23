@@ -6,12 +6,20 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface PokeList {
+    }
     interface PokeSearch {
         "focusInput": () => Promise<void>;
         "pokemonName": string;
     }
 }
 declare global {
+    interface HTMLPokeListElement extends Components.PokeList, HTMLStencilElement {
+    }
+    var HTMLPokeListElement: {
+        prototype: HTMLPokeListElement;
+        new (): HTMLPokeListElement;
+    };
     interface HTMLPokeSearchElement extends Components.PokeSearch, HTMLStencilElement {
     }
     var HTMLPokeSearchElement: {
@@ -19,14 +27,19 @@ declare global {
         new (): HTMLPokeSearchElement;
     };
     interface HTMLElementTagNameMap {
+        "poke-list": HTMLPokeListElement;
         "poke-search": HTMLPokeSearchElement;
     }
 }
 declare namespace LocalJSX {
+    interface PokeList {
+        "onSelectedPokemonName"?: (event: CustomEvent<string>) => void;
+    }
     interface PokeSearch {
         "pokemonName"?: string;
     }
     interface IntrinsicElements {
+        "poke-list": PokeList;
         "poke-search": PokeSearch;
     }
 }
@@ -34,6 +47,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "poke-list": LocalJSX.PokeList & JSXBase.HTMLAttributes<HTMLPokeListElement>;
             "poke-search": LocalJSX.PokeSearch & JSXBase.HTMLAttributes<HTMLPokeSearchElement>;
         }
     }

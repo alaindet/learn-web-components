@@ -1,0 +1,80 @@
+:host {
+  --primary: #3b013b;
+  --primary-hover: #5e005e;
+  --grey: #cccccc;
+  --grey-dark: #888888;
+
+  display: block;
+  font-family: sans-serif;
+  border: 2px solid var(--grey);
+  margin: 2rem;
+  padding: 1rem;
+  width: 20rem;
+  border-radius: 0.3rem;
+  max-width: 100%;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+button {
+  font: inherit;
+  line-height: 1rem;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 0.3rem;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover,
+button:active,
+button:focus {
+  outline: 0;
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+button:disabled {
+  background-color: var(--grey);
+  color: var(--grey-dark);
+  border-color: var(--grey-dark);
+}
+
+ul {
+  text-align: initial;
+  list-style-type: none;
+  padding-left: 0;
+  text-transform: capitalize;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+li {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: 0.15s all ease-in-out;
+}
+
+li:hover,
+li.active {
+  background-color: var(--primary-hover);
+  color: white;
+}
+
+.selected-pokemon {
+  text-transform: capitalize;
+  color: var(--primary);
+}
+
+.cancel {
+  font-size: initial;
+  font-weight: initial;
+  color: initial;
+  cursor: pointer;
+}
+
+.cancel:hover {
+  text-decoration: underline;
+}

@@ -1,10 +1,10 @@
-import { Component, State, Element, Method, h, Prop } from '@stencil/core';
+import { Component, State, Element, Method, h, Prop, Watch, Listen } from '@stencil/core';
 
-import { PokemonData } from './models/pokemon-data.interface';
-import { PokemonStat } from './models/pokemon-stat.interface'
-import { checkHttpStatus } from './middleware/check-http-status.middleware';
-import { mapToJson } from './middleware/map-to-json.middleware';
-import { capitalize } from './functions/capitalize.function';
+import { PokemonData } from '../../models/pokemon-data.interface';
+import { PokemonStat } from '../../models/pokemon-stat.interface';
+import { checkHttpStatus } from '../../middleware/check-http-status.middleware';
+import { mapToJson } from '../../middleware/map-to-json.middleware';
+import { capitalize } from '../../functions/capitalize.function';
 
 @Component({
   tag: 'poke-search',
@@ -13,11 +13,20 @@ import { capitalize } from './functions/capitalize.function';
 })
 export class PokeSearch {
 
+  @Prop({ attribute: 'pokemon', reflect: true, mutable: true })
+  pokemonName: string;
+
+  @Watch('pokemonName')
+  pokemonNameChanged(newValue: string, oldValue: string): void {
+    if (newValue !== oldValue) {
+      this.fetchPokemon(newValue);
+    }
+  }
+
   @Element() el: HTMLElement;
   @State() loading = false;
   @State() error: string;
   @State() pokemon: PokemonData | null = null;
-  @Prop({ attribute: 'pokemon', reflect: true, mutable: true }) pokemonName: string;
   @State() pokemonNameValid = true;
 
   private pokemonNameRef: HTMLInputElement;
@@ -31,8 +40,7 @@ export class PokeSearch {
   // Lifecycle hook
   componentDidLoad(): void {
     if (this.pokemonName) {
-      const pokemon = this.pokemonName.toLowerCase().replace(' ', '-');
-      this.fetchPokemon(pokemon);
+      this.fetchPokemon(this.pokemonName);
     }
   }
 
@@ -51,6 +59,16 @@ export class PokeSearch {
     console.log('disconnectedCallback');
   }
 
+  // From external <body> event
+  @Listen('selectedPokemonName', { target: 'body' })
+  onBodySelectedPokemonName(event: CustomEvent): void {
+    const pokemonName = event.detail;
+    if (pokemonName !== this.pokemonNameRef.value) {
+      this.pokemonNameRef.value = pokemonName;
+      this.fetchPokemon(pokemonName);
+    }
+  }
+
   @Method()
   async focusInput(): Promise<void> {
     this.pokemonNameRef.focus();
@@ -58,12 +76,10 @@ export class PokeSearch {
 
   onFetchPokemon(event: Event): void {
     event.preventDefault();
-    const pokemonRaw = this.pokemonNameRef.value;
-    const pokemon = pokemonRaw.toLowerCase().replace(' ', '-');
-    this.fetchPokemon(pokemon);
+    this.pokemonName = this.pokemonNameRef.value;
   }
 
-  onPokemonNameInput(event: KeyboardEvent): void {
+  onPokemonNameChange(event: KeyboardEvent): void {
     const value = (event.target as HTMLInputElement).value;
     this.pokemonNameValid = true;
     if (value.trim().length === 0) {
@@ -79,8 +95,9 @@ export class PokeSearch {
     this.pokemonNameRef.focus();
   }
 
-  private fetchPokemon(name: string): void {
+  private fetchPokemon(rawName: string): void {
     this.loading = true;
+    const name = rawName.toLowerCase().replace(' ', '-')
     const url = `${this.baseUrl}/${name}`;
     fetch(url)
       .then(this.onFetchPokemonNotFound.bind(this))
@@ -176,7 +193,7 @@ export class PokeSearch {
           class={this.pokemonNameValid ? '' : 'error'}
           ref={el => this.pokemonNameRef = el}
           value={this.pokemonName}
-          onInput={this.onPokemonNameInput.bind(this)}
+          onChange={this.onPokemonNameChange.bind(this)}
         />
         <button
           type="submit"

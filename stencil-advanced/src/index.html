@@ -7,15 +7,31 @@
 
     <script type="module" src="/build/stencil-advanced.esm.js"></script>
     <script nomodule src="/build/stencil-advanced.js"></script>
+    <style>
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      }
+      .container > * {
+        flex-basis: 35%;
+      }
+    </style>
   </head>
   <body>
 
-    <poke-search pokemon="Tapu Bulu"></poke-search>
+    <div class="container">
+      <poke-list></poke-list>
+      <poke-search></poke-search>
+    </div>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const pokeSearch = document.querySelector('poke-search');
-        pokeSearch.focusInput();
+        const pokeList = document.querySelector('poke-list');
+        pokeList.addEventListener('selectedPokemonName', (event) => {
+          console.log(event.detail);
+        });
       });
     </script>
 
