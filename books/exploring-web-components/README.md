@@ -1,4 +1,6 @@
 # Exploring Web Components
 
+## Resources
+
 - https://bpbonline.com/products/exploring-web-components
-- By https://andreachiarelli.it/
+- https://html.spec.whatwg.org/multipage/indices.html#element-interfaces
