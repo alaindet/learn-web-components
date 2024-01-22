@@ -1,6 +1,8 @@
 // Adapted from
 // https://github.com/andychiare/rating-component/blob/master/myRating.js
 
+import { createTemplate } from './utils.js';
+
 const HTML_ENTITY = {
   STAR_EMPTY: '&#x2606;', // ☆
   STAR_FILLED: '&#x2605;', // ★
@@ -122,10 +124,3 @@ class MyRatingComponent extends HTMLElement {
 }
 
 customElements.define('my-rating', MyRatingComponent);
-
-// TODO: Move to utils
-function createTemplate(templateString) {
-  const template = document.createElement('template');
-  template.innerHTML = templateString;
-  return template;
-}

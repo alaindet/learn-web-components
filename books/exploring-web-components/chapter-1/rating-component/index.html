@@ -7,7 +7,9 @@
   <!-- Dynamic polyfill for the ~2% of browsers still not supporting web components -->
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.8.0/webcomponents-loader.js"></script>
 
-  <script src="./rating.js"></script><!-- This is blocking on purpose -->
+  <!-- This is blocking on purpose -->
+  <script type="module" src="./rating.js"></script>
+
   <title>Rating Component</title>
 </head>
 <body>
