@@ -2,7 +2,11 @@ class SecureLinkComponent extends HTMLAnchorElement {
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements#custom_element_lifecycle_callbacks
   connectedCallback() {
-    this.addEventListener('click', e => this.#onClick(e));
+    this.addEventListener('click', this.#onClick.bind(this));
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('click', this.#onClick.bind(this));
   }
 
   #onClick(event) {
