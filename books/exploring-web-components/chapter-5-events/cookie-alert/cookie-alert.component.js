@@ -1,3 +1,5 @@
+import { getCookie, setCookie } from './utils';
+
 const style = `
   .container {
     display: flex;
@@ -68,18 +70,9 @@ const style = `
   }
 `;
 
-const template = `
-  <div class="container footer">
-    <span class="message">%MESSAGE%</span>
-    <div class="controls">
-      <button type="button" class="button secondary dismiss">Close</button>
-      <button type="button" class="button primary accept">Accept</button>
-    </div>
-  </div>
-`;
-
 class CookieAlert extends HTMLElement {
 
+  #afterRender = null;
   #message = 'This website uses cookies to ensure you get the best experience';
 
   static observedAttributes = ['message'];
@@ -115,33 +108,53 @@ class CookieAlert extends HTMLElement {
   }
 
   connectedCallback() {
+    this.#afterRender = () => {
+      const dismiss = this.querySelector('.dismiss');
+      const dismissHandler = this.#onDismiss.bind(this);
+      dismiss.removeEventListener('click', dismissHandler);
+      dismiss.addEventListener('click', dismissHandler);
+
+      const accept = this.querySelector('.accept');
+      const acceptHandler = this.#onAccept.bind(this);
+      accept.removeEventListener('click', acceptHandler);
+      accept.addEventListener('click', acceptHandler);
+    };
+
+    this.#render();
+  }
+
+  #html() {
     const message = this.getAttribute('message');
     if (message) {
       this.#message = message;
     }
 
-    this.#createComponentViaInnerHTML();
+    const accepted = getCookie('cookiesAccepted');
+    if (accepted === 'y') {
+      this.style.visibility = 'hidden';
+      return null;
+    }
 
-    this.querySelector('.dismiss')
-      .addEventListener('click', this.#onDismiss.bind(this));
-
-    this.querySelector('.accept')
-      .addEventListener('click', this.#onAccept.bind(this));
+    return `
+      <style>${style}</style>
+      <div class="container footer">
+        <span class="message">${this.message}</span>
+        <div class="controls">
+          <button type="button" class="button secondary dismiss">Close</button>
+          <button type="button" class="button primary accept">Accept</button>
+        </div>
+      </div>
+    `;
   }
 
   disconnectedCallback() {
-    this.querySelector('.dismiss')
-      .removeEventListener('click', this.#onDismiss.bind(this));
+    const dismiss = this.querySelector('.dismiss');
+    const dismissHandler = this.#onDismiss.bind(this);
+    dismiss.removeEventListener('click', dismissHandler);
 
-    this.querySelector('.accept')
-      .removeEventListener('click', this.#onAccept.bind(this));
-  }
-
-  #createComponentViaInnerHTML() {
-    this.innerHTML = `
-      <style>${style}</style>
-      ${template.replace(`%MESSAGE%`, this.message)}
-    `;
+    const accept = this.querySelector('.accept');
+    const acceptHandler = this.#onAccept.bind(this);
+    accept.removeEventListener('click', acceptHandler);
   }
 
   #updateMessage(value) {
@@ -156,32 +169,19 @@ class CookieAlert extends HTMLElement {
     setCookie('cookiesAccepted', 'y', 365);
     this.style.visibility = 'hidden';
   }
+
+  #render() {
+    const rendered = this.#html();
+    if (!rendered) {
+      return;
+    }
+
+    this.innerHTML = rendered;
+
+    if (this.#afterRender) {
+      this.#afterRender();
+    }
+  }
 }
 
 customElements.define('cookie-alert', CookieAlert);
-
-// TODO: Move
-function setCookie(cookieName, cookieValue, expiresInDays) {
-
-  const date = addDays(new Date(), expiresInDays);
-  const expiration = date.toUTCString();
-
-  document.cookie = [
-    `${cookieName}=${cookieValue}`,
-    `expires=${expiration}`,
-    `path=/`,
-  ].join(';');
-}
-
-// TODO: Move
-function getCookie(cookieName) {
-  // ...
-}
-
-// TODO: Move
-function addDays(date, days) {
-  const millisecondsInDay = 24 * 60 * 60 * 1000;
-  const timeIntervalInMilliseconds = days * millisecondsInDay;
-  date.setTime(date.getTime() + timeIntervalInMilliseconds);
-  return date;
-}
