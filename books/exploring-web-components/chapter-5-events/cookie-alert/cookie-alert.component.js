@@ -72,6 +72,8 @@ const style = `
 
 class CookieAlert extends HTMLElement {
 
+  #acceptedEvent = () => this.dispatchEvent(new CustomEvent('accepted'));
+
   #afterRender = null;
   #message = 'This website uses cookies to ensure you get the best experience';
 
@@ -84,7 +86,11 @@ class CookieAlert extends HTMLElement {
   set message(value) {
     this.#message = value;
     this.setAttribute('message', value);
-    this.#updateMessage(value);
+    this.#renderMessage(value);
+  }
+
+  constructor() {
+    super();
   }
 
   attributeChangedCallback(name, prevValue, nextValue) {
@@ -97,14 +103,6 @@ class CookieAlert extends HTMLElement {
         this.message = nextValue;
         break;
     }
-  }
-
-  constructor() {
-    super();
-
-    // Example: Prevent any standard "click" event handler to be added to
-    // <cookie-alert> element
-    this.addEventListener('click', event => event.stopImmediatePropagation());
   }
 
   connectedCallback() {
@@ -157,7 +155,7 @@ class CookieAlert extends HTMLElement {
     accept.removeEventListener('click', acceptHandler);
   }
 
-  #updateMessage(value) {
+  #renderMessage(value) {
     this.querySelector('.message').innerText = value;
   }
 
@@ -168,6 +166,7 @@ class CookieAlert extends HTMLElement {
   #onAccept() {
     setCookie('cookiesAccepted', 'y', 365);
     this.style.visibility = 'hidden';
+    this.#acceptedEvent();
   }
 
   #render() {

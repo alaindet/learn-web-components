@@ -13,5 +13,9 @@
     ></cookie-alert>
 
     <script type="module" src="/main.js"></script>
+    <script>
+      const cookieAlert = document.getElementsByTagName('cookie-alert')[0];
+      cookieAlert.addEventListener('accepted', e => console.log('accepted', e));
+    </script>
   </body>
 </html>
