@@ -1,5 +1,11 @@
 import { getCookie, setCookie } from './utils';
 
+const COOKIE = Object.freeze({
+  NAME: 'cookies-accepted',
+  VALUE: 'yes',
+  EXPIRES_IN_DAYS: 30,
+});
+
 const style = `
   .container {
     display: flex;
@@ -70,14 +76,31 @@ const style = `
   }
 `;
 
+export const COOKIE_ALERT_ATTR_MESSAGE = 'message';
+export const COOKIE_ALERT_ATTR_ONACCEPTED = 'onaccepted';
+export const COOKIE_ALERT_EVENT_ACCEPTED = 'accepted';
+
 class CookieAlert extends HTMLElement {
 
-  #acceptedEvent = () => this.dispatchEvent(new CustomEvent('accepted'));
-
-  #afterRender = null;
   #message = 'This website uses cookies to ensure you get the best experience';
+  #onAcceptedListener = null;
+  #acceptedEvent = () => this.dispatchEvent(new CustomEvent(COOKIE_ALERT_EVENT_ACCEPTED, {
+    detail: {
+      acceptedCookieName: COOKIE.NAME,
+      acceptedCookieExpiration: COOKIE.EXPIRES_IN_DAYS,
+    },
+  }));
 
-  static observedAttributes = ['message'];
+  // Internal API
+  #afterRender = null;
+
+  // Internal API
+  #eventListeners = [];
+
+  static observedAttributes = [
+    COOKIE_ALERT_ATTR_MESSAGE,
+    COOKIE_ALERT_ATTR_ONACCEPTED,
+  ];
 
   get message() {
     return this.#message
@@ -85,50 +108,70 @@ class CookieAlert extends HTMLElement {
 
   set message(value) {
     this.#message = value;
-    this.setAttribute('message', value);
+    this.setAttribute(COOKIE_ALERT_ATTR_MESSAGE, value);
     this.#renderMessage(value);
+  }
+
+  get onaccepted() {
+    return this.#onAcceptedListener;
+  }
+
+  set onaccepted(handler) {
+    if (this.#onAcceptedListener) {
+      this.removeEventListener(COOKIE_ALERT_EVENT_ACCEPTED, this.#onAcceptedListener);
+    }
+    if (typeof handler === 'function') {
+      this.#onAcceptedListener = handler;
+      this.addEventListener(COOKIE_ALERT_EVENT_ACCEPTED, this.#onAcceptedListener);
+    }
   }
 
   constructor() {
     super();
   }
 
+  // Built-in callback
   attributeChangedCallback(name, prevValue, nextValue) {
+
     if (prevValue === nextValue) {
       return;
     }
 
     switch (name) {
-      case 'message':
+      case COOKIE_ALERT_ATTR_MESSAGE:
         this.message = nextValue;
+        break;
+      case COOKIE_ALERT_ATTR_ONACCEPTED:
+        if (nextValue) {
+          // This is a monstrosity
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
+          this.onaccepted = new Function('event', `${nextValue}`);
+        } else {
+          this.onaccepted = null;
+        }
         break;
     }
   }
 
+  // Built-in callback
   connectedCallback() {
     this.#afterRender = () => {
-      const dismiss = this.querySelector('.dismiss');
-      const dismissHandler = this.#onDismiss.bind(this);
-      dismiss.removeEventListener('click', dismissHandler);
-      dismiss.addEventListener('click', dismissHandler);
-
-      const accept = this.querySelector('.accept');
-      const acceptHandler = this.#onAccept.bind(this);
-      accept.removeEventListener('click', acceptHandler);
-      accept.addEventListener('click', acceptHandler);
+      this.#removeEventListeners();
+      this.#addEventListener(this.querySelector('.dismiss'), 'click', this.#onDismiss.bind(this));
+      this.#addEventListener(this.querySelector('.accept'), 'click', this.#onAccept.bind(this));
     };
 
     this.#render();
   }
 
   #html() {
-    const message = this.getAttribute('message');
+    const message = this.getAttribute(COOKIE_ALERT_ATTR_MESSAGE);
     if (message) {
       this.#message = message;
     }
 
-    const accepted = getCookie('cookiesAccepted');
-    if (accepted === 'y') {
+    const accepted = getCookie(COOKIE.NAME);
+    if (accepted === COOKIE.VALUE) {
       this.style.visibility = 'hidden';
       return null;
     }
@@ -145,18 +188,16 @@ class CookieAlert extends HTMLElement {
     `;
   }
 
+  // Built-in callback
   disconnectedCallback() {
-    const dismiss = this.querySelector('.dismiss');
-    const dismissHandler = this.#onDismiss.bind(this);
-    dismiss.removeEventListener('click', dismissHandler);
-
-    const accept = this.querySelector('.accept');
-    const acceptHandler = this.#onAccept.bind(this);
-    accept.removeEventListener('click', acceptHandler);
+    this.#removeEventListeners();
   }
 
   #renderMessage(value) {
-    this.querySelector('.message').innerText = value;
+    const messageEl = this.querySelector('.message');
+    if (messageEl) {
+      messageEl.innerText = value;
+    }
   }
 
   #onDismiss() {
@@ -164,22 +205,42 @@ class CookieAlert extends HTMLElement {
   }
 
   #onAccept() {
-    setCookie('cookiesAccepted', 'y', 365);
     this.style.visibility = 'hidden';
+    setCookie(COOKIE.NAME, COOKIE.VALUE, COOKIE.EXPIRATION_IN_DAYS);
     this.#acceptedEvent();
+    if (this.#onAcceptedListener) {
+      this.#onAcceptedListener();
+    }
   }
 
+  // Internal API
   #render() {
     const rendered = this.#html();
-    if (!rendered) {
-      return;
-    }
 
-    this.innerHTML = rendered;
+    if (rendered) {
+      this.innerHTML = rendered;
+    }
 
     if (this.#afterRender) {
       this.#afterRender();
     }
+  }
+
+  // Internal API
+  #addEventListener(el, event, handler) {
+    if (!el) {
+      return;
+    }
+    this.#eventListeners.push({ el, event, handler });
+    el.addEventListener(event, handler);
+  }
+
+  // Internal API
+  #removeEventListeners() {
+    this.#eventListeners.forEach(({ el, event, handler }) => {
+      el.removeEventListener(event, handler);
+    });
+    this.#eventListeners = [];
   }
 }
 

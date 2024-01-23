@@ -10,12 +10,26 @@
 
     <cookie-alert
       message="Something about how we use cookie responsibly."
+      onaccepted="onAccepted(event)"
     ></cookie-alert>
 
     <script type="module" src="/main.js"></script>
+
+    <!-- Via simulated onevent attribute -->
     <script>
-      const cookieAlert = document.getElementsByTagName('cookie-alert')[0];
-      cookieAlert.addEventListener('accepted', e => console.log('accepted', e));
+      function onAccepted(event) {
+        console.log('onAccepted', event);
+      }
+    </script>
+
+    <!-- Via programmatic API -->
+    <script type="module">
+      // import { COOKIE_ALERT_EVENT_ACCEPTED } from './cookie-alert.component.js';
+
+      // const cookieAlert = document.getElementsByTagName('cookie-alert')[0];
+      // cookieAlert.addEventListener(COOKIE_ALERT_EVENT_ACCEPTED, event => {
+      //   console.log('accepted', event.detail);
+      // });
     </script>
   </body>
 </html>
