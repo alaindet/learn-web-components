@@ -8,16 +8,10 @@
   </head>
   <body>
 
-    <cookie-alert message="Some custom message"></cookie-alert>
-    <button type="button" id="change-message-btn">Change message</button>
+    <cookie-alert
+      message="Something about how we use cookie responsibly."
+    ></cookie-alert>
 
     <script type="module" src="/main.js"></script>
-    <script>
-      document.querySelector('#change-message-btn').addEventListener('click', () => {
-        const message = new String(Date.now());
-        const cookieAlert = document.querySelector('cookie-alert');
-        cookieAlert.message = message;
-      });
-    </script>
   </body>
 </html>

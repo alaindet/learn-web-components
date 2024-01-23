@@ -1,1 +1,1 @@
-import './components/cookie-alert.component';
+import './cookie-alert.component';
