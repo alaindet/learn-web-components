@@ -12,3 +12,22 @@ However, if the browser sees an unknown tag (including via the DOM API), it crea
 Then, when you later define the unknown tag via `window.customElements.define`, the browser **upgrades** the `HTMLUnknownElement` instance to the right custom element and `connectedCallback` is called.
 
 From the custom element's instance perspective, `connectedCallback` is called just once, but the element instance already exists, it's just "upgrading" rather than being "created". It doesn't affect your code in any way, but it's worth knowing.
+
+## `connectedCallback` multiple calls
+- In order to strictly avoid executing `connectedCallback` multiple times, a simple boolean property can be used
+
+```js
+class MyCustomElement extends HTMLElement {
+
+  #initialized = false;
+
+  connectedCallback() {
+    if (this.#initialized) {
+      return;
+    }
+
+    // Initialization code goes here...
+    this.#initialized = true;
+  }
+}
+```
