@@ -80,7 +80,9 @@ const css = `
 
 const html = `
   <div class="container footer">
-    <span class="message"></span>
+    <span class="message">
+      <slot id="message">The default message</slot>
+    </span>
     <div class="controls">
       <button type="button" class="button secondary dismiss">Close</button>
       <button type="button" class="button primary accept">Accept</button>
