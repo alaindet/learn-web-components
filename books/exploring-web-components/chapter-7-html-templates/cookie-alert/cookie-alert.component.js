@@ -30,8 +30,17 @@ const css = `
       bottom: 0;
     }
 
-    .message {
+    .left {
       flex-grow: 1;
+    }
+
+    .message {
+
+    }
+
+    .reference {
+      font-size: 0.9em;
+      font-style: italic;
     }
 
     .controls {
@@ -80,12 +89,19 @@ const css = `
 
 const html = `
   <div class="container footer">
-    <span class="message">
-      <slot id="message">The default message</slot>
-    </span>
-    <div class="controls">
-      <button type="button" class="button secondary dismiss">Close</button>
-      <button type="button" class="button primary accept">Accept</button>
+    <div class="left">
+      <div class="message">
+        <slot id="message" name="message"></slot>
+      </div>
+      <div class="reference">
+        <slot name="reference"></slot>
+      </div>
+    </div>
+    <div class="right">
+      <div class="controls">
+        <button type="button" class="button secondary dismiss">Close</button>
+        <button type="button" class="button primary accept">Accept</button>
+      </div>
     </div>
   </div>
 `;

@@ -8,8 +8,14 @@
   </head>
   <body>
 
+    <!-- Using a named slot -->
     <cookie-alert onaccepted="onAccepted(event)">
-      Something about how we use <strong>cookies</strong> responsibly.
+      <span slot="message">
+        We use <strong>cookies</strong>, but respect your <strong>privacy</strong>!
+      </span>
+      <span slot="reference">
+        Read our <a href="#">privacy policy</a>
+      </span>
     </cookie-alert>
 
     <script type="module" src="/main.js"></script>
