@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Starter</title>
+  </head>
+  <body>
+
+    <cookie-alert message="Some custom message"></cookie-alert>
+    <button type="button" id="change-message-btn">Change message</button>
+
+    <script type="module" src="/main.js"></script>
+    <script>
+      document.querySelector('#change-message-btn').addEventListener('click', () => {
+        const message = new String(Date.now());
+        const cookieAlert = document.querySelector('cookie-alert');
+        cookieAlert.message = message;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Starter</title>
+  </head>
+  <body>
+
+    <cookie-alert
+      message="Something about how we use cookie responsibly."
+      onaccepted="onAccepted(event)"
+    ></cookie-alert>
+
+    <script type="module" src="/main.js"></script>
+
+    <!-- Via simulated onevent attribute -->
+    <script>
+      function onAccepted(event) {
+        console.log('onAccepted', event);
+      }
+    </script>
+
+    <!-- Via programmatic API -->
+    <script type="module">
+      // import { COOKIE_ALERT_EVENT_ACCEPTED } from './cookie-alert.component.js';
+
+      // const cookieAlert = document.getElementsByTagName('cookie-alert')[0];
+      // cookieAlert.addEventListener(COOKIE_ALERT_EVENT_ACCEPTED, event => {
+      //   console.log('accepted', event.detail);
+      // });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Starter</title>
+  </head>
+  <body>
+
+    <div id="the-container">
+      <reactions-logger id="the-logger" foo="42"></reactions-logger>
+    </div>
+    <div id="the-other-container"></div>
+
+    <button type="button" id="foo-button">Update foo attribute</button>
+    <button type="button" id="bar-button">Update bar attribute</button>
+    <button type="button" id="create-button">Create</button>
+    <button type="button" id="destroy-button">Destroy</button>
+
+    <script type="module" src="/main.js"></script>
+    <script>
+      init();
+
+      function init() {
+        const fooBtn = document.getElementById('foo-button');
+        const barBtn = document.getElementById('bar-button');
+        const createBtn = document.getElementById('create-button');
+        const destroyBtn = document.getElementById('destroy-button');
+
+        const getRandomNumber = () => {
+          return (Math.random() * 100).toFixed(0);
+        };
+
+        fooBtn.addEventListener('click', () => {
+          const logger = document.getElementById('the-logger');
+          if (logger === null) return;
+          logger.setAttribute('foo', getRandomNumber());
+        });
+
+        barBtn.addEventListener('click', () => {
+          const logger = document.getElementById('the-logger');
+          if (logger === null) return;
+          logger.setAttribute('bar', getRandomNumber());
+        });
+
+        createBtn.addEventListener('click', () => {
+          const existingLogger = document.getElementById('the-logger');
+          if (existingLogger !== null) return;
+          const container = document.getElementById('the-container');
+          const logger = document.createElement('reactions-logger');
+          logger.setAttribute('id', 'the-logger');
+          container.appendChild(logger);
+        });
+
+        destroyBtn.addEventListener('click', () => {
+          const logger = document.getElementById('the-logger');
+          if (logger === null) return;
+          logger.remove();
+        });
+      }
+    </script>
+  </body>
+</html>
