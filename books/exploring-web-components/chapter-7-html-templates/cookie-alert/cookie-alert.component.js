@@ -97,6 +97,11 @@ export const COOKIE_ALERT_EVENT_ACCEPTED = 'accepted';
 
 class CookieAlert extends HTMLElement {
 
+  static observedAttributes = [
+    COOKIE_ALERT_ATTR_MESSAGE,
+    COOKIE_ALERT_ATTR_ONACCEPTED,
+  ];
+
   #message = 'This website uses cookies to ensure you get the best experience';
   #onAcceptedListener = null;
   #acceptedEvent = () => this.dispatchEvent(new CustomEvent(COOKIE_ALERT_EVENT_ACCEPTED, {
@@ -106,16 +111,7 @@ class CookieAlert extends HTMLElement {
     },
   }));
 
-  // Internal API
-  #afterRender = null;
-
-  // Internal API
   #eventListeners = [];
-
-  static observedAttributes = [
-    COOKIE_ALERT_ATTR_MESSAGE,
-    COOKIE_ALERT_ATTR_ONACCEPTED,
-  ];
 
   get message() {
     return this.#message
@@ -124,7 +120,7 @@ class CookieAlert extends HTMLElement {
   set message(value) {
     this.#message = value;
     this.setAttribute(COOKIE_ALERT_ATTR_MESSAGE, value);
-    this.#renderMessage(value);
+    this.#updateMessage(value);
   }
 
   get onaccepted() {
@@ -147,7 +143,6 @@ class CookieAlert extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
-  // Built-in callback
   attributeChangedCallback(name, prevValue, nextValue) {
 
     if (prevValue === nextValue) {
@@ -170,53 +165,37 @@ class CookieAlert extends HTMLElement {
     }
   }
 
-  // Built-in callback
+  // TODO: Use slots?
   connectedCallback() {
-    this.#afterRender = () => {
-      this.#removeEventListeners();
-      const dismissEl = this.shadowRoot.querySelector('.dismiss');
-      this.#addEventListener(dismissEl, 'click', this.#onDismiss.bind(this));
-      const acceptEl = this.shadowRoot.querySelector('.accept');
-      this.#addEventListener(acceptEl, 'click', this.#onAccept.bind(this));
-    };
+    const cookiesAccepted = getCookie(COOKIE.NAME);
 
-    this.#render();
-  }
-
-  #html() {
-    const message = this.getAttribute(COOKIE_ALERT_ATTR_MESSAGE);
-    if (message) {
-      this.#message = message;
-    }
-
-    const accepted = getCookie(COOKIE.NAME);
-    if (accepted === COOKIE.VALUE) {
+    if (cookiesAccepted === COOKIE.VALUE) {
       this.style.visibility = 'hidden';
-      return null;
+      return;
     }
 
-    return `
-      <style>${style}</style>
-      <div class="container footer">
-        <span class="message">${this.message}</span>
-        <div class="controls">
-          <button type="button" class="button secondary dismiss">Close</button>
-          <button type="button" class="button primary accept">Accept</button>
-        </div>
-      </div>
-    `;
+    this.#initComponent();
   }
 
-  // Built-in callback
   disconnectedCallback() {
-    this.#removeEventListeners();
+    this.#unregisterEventListeners();
   }
 
-  #renderMessage(value) {
-    const messageEl = this.querySelector('.message');
-    if (messageEl) {
-      messageEl.innerText = value;
-    }
+  #initComponent() {
+    const closeButton = this.shadowRoot.querySelector('.dismiss');
+    const closeHandler = this.#onDismiss.bind(this);
+    closeButton.addEventListener('click', closeHandler);
+    this.#registerEventListener(closeButton, 'click', closeHandler);
+
+    const acceptButton = this.shadowRoot.querySelector('.accept');
+    const acceptHandler = this.#onAccept.bind(this);
+    acceptButton.addEventListener('click', acceptHandler);
+    this.#registerEventListener(acceptButton, 'click', acceptHandler);
+  }
+
+  // TODO: Use slots
+  #updateMessage(value) {
+    this.shadowRoot.querySelector('.message').innerText = value;
   }
 
   #onDismiss() {
@@ -233,20 +212,7 @@ class CookieAlert extends HTMLElement {
   }
 
   // Internal API
-  #render() {
-    const rendered = this.#html();
-
-    if (rendered) {
-      this.shadowRoot.innerHTML = rendered;
-    }
-
-    if (this.#afterRender) {
-      this.#afterRender();
-    }
-  }
-
-  // Internal API
-  #addEventListener(el, event, handler) {
+  #registerEventListener(el, event, handler) {
     if (!el) {
       return;
     }
@@ -255,7 +221,7 @@ class CookieAlert extends HTMLElement {
   }
 
   // Internal API
-  #removeEventListeners() {
+  #unregisterEventListeners() {
     this.#eventListeners.forEach(({ el, event, handler }) => {
       el.removeEventListener(event, handler);
     });
