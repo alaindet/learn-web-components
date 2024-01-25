@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Dynamic polyfill for the ~2% of browsers still not supporting web components -->
+  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.8.0/webcomponents-loader.js"></script>
+
+  <!-- This is blocking on purpose -->
+  <script type="module" src="./rating.js"></script>
+
+  <title>Rating Component</title>
+</head>
+<body>
+
+  <my-rating id="the-rating" max-value="10" value="6"></my-rating>
+  <button id="the-button" type="button">
+    Update <code>&lt;my-rating&gt;</code> programmatically and randomly
+  </button>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Starter</title>
+    <style>
+      html {
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      cookie-banner.lilac-theme {
+        --color-background: #e2c3dc;
+        --color-text: black;
+        --button-color-background: #82b848;
+        --button-color-background-hover: #67a327;
+        --button-color-text: white;
+        --button-color-text-hover: white;
+      }
+
+      cookie-banner.summer-theme {
+        --color-background: #d4fafc;
+        --color-text: black;
+        --button-color-background: #f36f81;
+        --button-color-background-hover: #d63349;
+        --button-color-text: white;
+        --button-color-text-hover: white;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Web Components styling 101</h1>
+
+    <p>
+      This web component is completely styled via scoped CSS variables, overriden via native CSS.
+    </p>
+
+    <cookie-banner id="the-banner">
+      <span slot="message">
+        This is one of those very important messages about privacy.
+      </span>
+      <span slot="footnote">
+        For further reference, <a href="https:/www.example.com">example.com</a>
+      </span>
+    </cookie-banner>
+
+    <div class="theme-switcher">
+      <h2>Theme Switcher</h2>
+      <select id="the-theme-switcher">
+        <option value="none">No theme</option>
+        <option value="lilac">Lilac theme</option>
+        <option value="summer">Summer theme</option>
+      </select>
+    </div>
+
+    <script type="module" src="/cookie-banner.js"></script>
+    <script>
+      const banner = document.querySelector('#the-banner');
+      const themeSwitcher = document.querySelector('#the-theme-switcher');
+
+      themeSwitcher.addEventListener('change', event => {
+        banner.className = '';
+
+        console.log('event', event, banner);
+
+        const theme = event.target.value;
+        if (theme !== 'none') {
+          banner.className = `${theme}-theme`;
+          // banner.classList.add(`theme-${theme}`);
+        }
+      });
+    </script>
+  </body>
+</html>

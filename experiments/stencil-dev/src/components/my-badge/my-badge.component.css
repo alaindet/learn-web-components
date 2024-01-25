@@ -1,0 +1,34 @@
+:host {
+  --success-background: #9bed9b;
+  --success-text: black;
+  --info-background: #a7cdf7;
+  --info-text: black;
+  --error-background: #f8a5a5;
+  --error-text: black;
+
+  --_background: #ddd;
+  --_text: black;
+
+  background-color: var(--_background);
+  color: var(--_text);
+  padding: 0.1rem 0.4rem;
+  border-radius: 10rem;
+  line-height: 0.8rem;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+:host(.type-success) {
+  --_background: var(--success-background);
+  --_text: var(--success-text);
+}
+
+:host(.type-info) {
+  --_background: var(--info-background);
+  --_text: var(--info-text);
+}
+
+:host(.type-error) {
+  --_background: var(--error-background);
+  --_text: var(--error-text);
+}

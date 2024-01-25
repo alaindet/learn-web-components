@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite Starter</title>
+  </head>
+  <body>
+
+    <!-- Using a named slot -->
+    <cookie-alert onaccepted="onAccepted(event)">
+      <span slot="message">
+        We use <strong>cookies</strong>, but respect your <strong>privacy</strong>!
+      </span>
+      <span slot="reference">
+        Read our <a href="#">privacy policy</a>
+      </span>
+    </cookie-alert>
+
+    <script type="module" src="/main.js"></script>
+
+  </body>
+</html>

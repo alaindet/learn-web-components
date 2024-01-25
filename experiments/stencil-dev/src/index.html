@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/stencil-dev.esm.js"></script>
+    <script nomodule src="/build/stencil-dev.js"></script>
+    <style>
+      html {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .custom-badges my-badge {
+        --success-background: #2c5d2c;
+        --success-text: white;
+        --info-background: #3269a9;
+        --info-text: white;
+        --error-background: #813838;
+        --error-text: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component> -->
+
+    <div>
+      <h2>Default badges</h2>
+      <my-badge>Default</my-badge>
+      <my-badge type="info">Info</my-badge>
+      <my-badge type="success">Success</my-badge>
+      <my-badge type="error">Error</my-badge>
+    </div>
+
+    <div class="custom-badges">
+      <h2>Customized badges</h2>
+      <my-badge>Default</my-badge>
+      <my-badge type="info">Info</my-badge>
+      <my-badge type="success">Success</my-badge>
+      <my-badge type="error">Error</my-badge>
+    </div>
+
+    <div id="menu-placeholder"></div>
+
+    <script>
+      const myMenu = document.createElement('my-menu');
+
+      myMenu.options = [
+        { value: 'yes', label: 'Yes' },
+        { value: 'no', label: 'No' },
+      ];
+
+      myMenu.addEventListener('pickedOption', event => {
+        const optionValue = event.detail;
+        console.log('pickedOption', optionValue);
+      });
+
+      document.querySelector('#menu-placeholder').appendChild(myMenu);
+    </script>
+  </body>
+</html>
