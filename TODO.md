@@ -1,0 +1,9 @@
+- [ ] Test Angular integration by following this
+  - https://stenciljs.com/docs/angular
+- [ ] Inspect Lifecycle hooks
+  - https://stenciljs.com/docs/api
+- [ ] Testing with Jest
+  - https://eliteionic.com/tutorials/the-basics-of-unit-testing-in-stencil-js/
+- [ ] Integrate Storybook
+  - https://ionic.io/blog/how-to-use-storybook-with-stencil
+  - https://www.youtube.com/watch?v=KyephjW1irE
