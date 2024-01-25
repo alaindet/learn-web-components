@@ -26,7 +26,11 @@ export namespace Components {
         "middle": string;
     }
     interface MyMenu {
+        "closeDropdown": () => Promise<void>;
+        "getDimensions": () => Promise<string>;
+        "openDropdown": () => Promise<void>;
         "options": MenuOption[];
+        "toggleDropdown": () => Promise<void>;
     }
 }
 export interface MyMenuCustomEvent<T> extends CustomEvent<T> {

@@ -51,7 +51,7 @@
         { value: 'no', label: 'No' },
       ];
 
-      myMenu.addEventListener('pickedOption', event => {
+      myMenu.addEventListener('pickedOption', async event => {
         const optionValue = event.detail;
         console.log('pickedOption', optionValue);
       });
