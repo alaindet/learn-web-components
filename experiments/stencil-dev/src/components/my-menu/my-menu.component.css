@@ -1,31 +1,24 @@
-:host(.menu) {
-  display: inline-block;
+.my-menu {
+  display: block;
+  border: 2px solid black;
+  width: min(500px, 95vw);
 }
 
-.panel {
-  min-width: min(300px, 100vw);
-}
-
-.panel ul {
-  list-style: none;
-  padding: 0;
+.my-menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.25rem;
   margin: 0;
 }
 
-.panel li {
-  display: flex;
-  align-items: stretch;
-}
-
-.panel button {
-  border: 0;
-  background-color: #ddd;
-  width: 100%;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
+.my-menu-option {
+  display: block;
+  background-color: #eee;
+  padding: 1rem; 
   transition: 0.15s background-color ease-in-out;
 }
 
-.panel button:hover {
-  background-color: #bbb;
+.my-menu-option:hover {
+  background-color: #d8d8d8;
 }

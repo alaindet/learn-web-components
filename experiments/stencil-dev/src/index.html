@@ -23,40 +23,7 @@
     </style>
   </head>
   <body>
-    <!-- <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component> -->
-
-    <div>
-      <h2>Default badges</h2>
-      <my-badge>Default</my-badge>
-      <my-badge type="info">Info</my-badge>
-      <my-badge type="success">Success</my-badge>
-      <my-badge type="error">Error</my-badge>
-    </div>
-
-    <div class="custom-badges">
-      <h2>Customized badges</h2>
-      <my-badge>Default</my-badge>
-      <my-badge type="info">Info</my-badge>
-      <my-badge type="success">Success</my-badge>
-      <my-badge type="error">Error</my-badge>
-    </div>
-
-    <div id="menu-placeholder"></div>
-
-    <script>
-      const myMenu = document.createElement('my-menu');
-
-      myMenu.options = [
-        { value: 'yes', label: 'Yes' },
-        { value: 'no', label: 'No' },
-      ];
-
-      myMenu.addEventListener('pickedOption', async event => {
-        const optionValue = event.detail;
-        console.log('pickedOption', optionValue);
-      });
-
-      document.querySelector('#menu-placeholder').appendChild(myMenu);
-    </script>
+    <my-badge-demo></my-badge-demo>
+    <my-menu-demo></my-menu-demo>
   </body>
 </html>

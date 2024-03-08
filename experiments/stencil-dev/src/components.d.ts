@@ -5,11 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenuOption } from "./components/my-menu/my-menu.component";
-export { MenuOption } from "./components/my-menu/my-menu.component";
+import { MyMenuOption } from "./components/my-menu/types";
+import { MenuOption } from "./components/old-my-menu/old-my-menu.component";
+export { MyMenuOption } from "./components/my-menu/types";
+export { MenuOption } from "./components/old-my-menu/old-my-menu.component";
 export namespace Components {
     interface MyBadge {
         "type": 'success' | 'info' | 'error';
+    }
+    interface MyBadgeDemo {
     }
     interface MyComponent {
         /**
@@ -26,6 +30,11 @@ export namespace Components {
         "middle": string;
     }
     interface MyMenu {
+        "options": MyMenuOption[];
+    }
+    interface MyMenuDemo {
+    }
+    interface OldMyMenu {
         "closeDropdown": () => Promise<void>;
         "getDimensions": () => Promise<string>;
         "openDropdown": () => Promise<void>;
@@ -37,12 +46,22 @@ export interface MyMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLMyMenuElement;
 }
+export interface OldMyMenuCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLOldMyMenuElement;
+}
 declare global {
     interface HTMLMyBadgeElement extends Components.MyBadge, HTMLStencilElement {
     }
     var HTMLMyBadgeElement: {
         prototype: HTMLMyBadgeElement;
         new (): HTMLMyBadgeElement;
+    };
+    interface HTMLMyBadgeDemoElement extends Components.MyBadgeDemo, HTMLStencilElement {
+    }
+    var HTMLMyBadgeDemoElement: {
+        prototype: HTMLMyBadgeDemoElement;
+        new (): HTMLMyBadgeDemoElement;
     };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
@@ -51,7 +70,7 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLMyMenuElementEventMap {
-        "pickedOption": MenuOption['value'];
+        "selected": string;
     }
     interface HTMLMyMenuElement extends Components.MyMenu, HTMLStencilElement {
         addEventListener<K extends keyof HTMLMyMenuElementEventMap>(type: K, listener: (this: HTMLMyMenuElement, ev: MyMenuCustomEvent<HTMLMyMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -67,15 +86,43 @@ declare global {
         prototype: HTMLMyMenuElement;
         new (): HTMLMyMenuElement;
     };
+    interface HTMLMyMenuDemoElement extends Components.MyMenuDemo, HTMLStencilElement {
+    }
+    var HTMLMyMenuDemoElement: {
+        prototype: HTMLMyMenuDemoElement;
+        new (): HTMLMyMenuDemoElement;
+    };
+    interface HTMLOldMyMenuElementEventMap {
+        "pickedOption": MenuOption['value'];
+    }
+    interface HTMLOldMyMenuElement extends Components.OldMyMenu, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLOldMyMenuElementEventMap>(type: K, listener: (this: HTMLOldMyMenuElement, ev: OldMyMenuCustomEvent<HTMLOldMyMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLOldMyMenuElementEventMap>(type: K, listener: (this: HTMLOldMyMenuElement, ev: OldMyMenuCustomEvent<HTMLOldMyMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLOldMyMenuElement: {
+        prototype: HTMLOldMyMenuElement;
+        new (): HTMLOldMyMenuElement;
+    };
     interface HTMLElementTagNameMap {
         "my-badge": HTMLMyBadgeElement;
+        "my-badge-demo": HTMLMyBadgeDemoElement;
         "my-component": HTMLMyComponentElement;
         "my-menu": HTMLMyMenuElement;
+        "my-menu-demo": HTMLMyMenuDemoElement;
+        "old-my-menu": HTMLOldMyMenuElement;
     }
 }
 declare namespace LocalJSX {
     interface MyBadge {
         "type"?: 'success' | 'info' | 'error';
+    }
+    interface MyBadgeDemo {
     }
     interface MyComponent {
         /**
@@ -92,13 +139,22 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface MyMenu {
-        "onPickedOption"?: (event: MyMenuCustomEvent<MenuOption['value']>) => void;
+        "onSelected"?: (event: MyMenuCustomEvent<string>) => void;
+        "options": MyMenuOption[];
+    }
+    interface MyMenuDemo {
+    }
+    interface OldMyMenu {
+        "onPickedOption"?: (event: OldMyMenuCustomEvent<MenuOption['value']>) => void;
         "options"?: MenuOption[];
     }
     interface IntrinsicElements {
         "my-badge": MyBadge;
+        "my-badge-demo": MyBadgeDemo;
         "my-component": MyComponent;
         "my-menu": MyMenu;
+        "my-menu-demo": MyMenuDemo;
+        "old-my-menu": OldMyMenu;
     }
 }
 export { LocalJSX as JSX };
@@ -106,8 +162,11 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-badge": LocalJSX.MyBadge & JSXBase.HTMLAttributes<HTMLMyBadgeElement>;
+            "my-badge-demo": LocalJSX.MyBadgeDemo & JSXBase.HTMLAttributes<HTMLMyBadgeDemoElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "my-menu": LocalJSX.MyMenu & JSXBase.HTMLAttributes<HTMLMyMenuElement>;
+            "my-menu-demo": LocalJSX.MyMenuDemo & JSXBase.HTMLAttributes<HTMLMyMenuDemoElement>;
+            "old-my-menu": LocalJSX.OldMyMenu & JSXBase.HTMLAttributes<HTMLOldMyMenuElement>;
         }
     }
 }
