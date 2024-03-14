@@ -18,9 +18,9 @@ function didPropOrStateChange<T = any>(targetPropName: string) {
 })
 export class MyRadioGroupComponent {
 
-  @Element()
-  el!: HTMLElement;
+  @Element() host!: HTMLElement;
 
+  @Prop() name!: string;
   @Prop() checked = false;
   #didCheckedPropChange = didPropOrStateChange<boolean>('checked');
 
@@ -44,9 +44,15 @@ export class MyRadioGroupComponent {
   }
 
   #queryChildRadios() {
-    const radios = this.el.querySelectorAll('my-radio');
-    console.log('queried radios', radios);
-    // radios.forEach(radio => radio.checked = true);
+    const radios = this.host.querySelectorAll('my-radio');
+    if (!radios.length) {
+      throw new Error('Missing children <my-radio> in <my-radio-group> element');
+    }
+
+    radios.forEach((radio, i) => {
+      radio.checked = i % 2 === 0;
+      radio.setName(this.name);
+    });
   }
 
   render() {

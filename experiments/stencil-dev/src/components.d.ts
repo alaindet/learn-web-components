@@ -36,12 +36,14 @@ export namespace Components {
     }
     interface MyRadio {
         "checked": boolean;
+        "setName": (name: string) => Promise<void>;
         "value": string;
     }
     interface MyRadioDemo {
     }
     interface MyRadioGroup {
         "checked": boolean;
+        "name": string;
     }
     interface OldMyMenu {
         "closeDropdown": () => Promise<void>;
@@ -182,6 +184,7 @@ declare namespace LocalJSX {
     }
     interface MyRadioGroup {
         "checked"?: boolean;
+        "name": string;
     }
     interface OldMyMenu {
         "onPickedOption"?: (event: OldMyMenuCustomEvent<MenuOption['value']>) => void;

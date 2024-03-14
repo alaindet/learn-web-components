@@ -1,11 +1,54 @@
 .my-radio {
+  --my-radio-bullet-color: blue;
+
   display: block;
   background-color: #ccc;
   padding: 1rem;
   border: 2px solid transparent;
+  margin: 0.5rem 0;
+  cursor: pointer;
 }
 
 .my-radio:hover {
   background-color: #d0d0d0;
   border-color: #aaa;
+}
+
+input[type="radio"] {
+  opacity: 0;
+}
+
+input[type="radio"] + label {
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="radio"] + label::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0;
+  border-radius: 50%;
+  border: 1px solid #6F686A;
+  width: 18px;
+  height: 18px;
+}
+    
+input[type="radio"] + label::after {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+  
+input[type="radio"]:checked + label::after {
+  background-color: var(--my-radio-bullet-color);
+}
+  
+input[type="radio"]:focus + label::before {
+  box-shadow: 0 0px 0px 1px #6F686A, 0 0px 8px var(--my-radio-bullet-color);
+  outline: 2px dotted transparent;
 }

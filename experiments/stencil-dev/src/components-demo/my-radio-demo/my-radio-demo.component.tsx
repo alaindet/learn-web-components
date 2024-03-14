@@ -18,11 +18,13 @@ export class MyRadioDemoComponent {
     return (
       <section>
         <h2>My Radio Group</h2>
-        <my-radio-group>
-          <my-radio value="foo">Foo</my-radio>
-          <my-radio value="bar">Bar</my-radio>
-          <my-radio value="baz">Baz</my-radio>
-        </my-radio-group>
+        <fieldset>
+          <my-radio-group name="person">
+            <my-radio value="foo">Foo</my-radio>
+            <my-radio value="bar">Bar</my-radio>
+            <my-radio value="baz">Baz</my-radio>
+          </my-radio-group>
+        </fieldset>
       </section>
     );
   }
