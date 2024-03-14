@@ -1,0 +1,7 @@
+.my-radio-group {
+  padding: 1rem;
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

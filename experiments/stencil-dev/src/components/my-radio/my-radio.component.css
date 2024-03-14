@@ -1,0 +1,11 @@
+.my-radio {
+  display: block;
+  background-color: #ccc;
+  padding: 1rem;
+  border: 2px solid transparent;
+}
+
+.my-radio:hover {
+  background-color: #d0d0d0;
+  border-color: #aaa;
+}

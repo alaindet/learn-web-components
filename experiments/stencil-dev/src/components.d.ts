@@ -34,6 +34,15 @@ export namespace Components {
     }
     interface MyMenuDemo {
     }
+    interface MyRadio {
+        "checked": boolean;
+        "value": string;
+    }
+    interface MyRadioDemo {
+    }
+    interface MyRadioGroup {
+        "checked": boolean;
+    }
     interface OldMyMenu {
         "closeDropdown": () => Promise<void>;
         "getDimensions": () => Promise<string>;
@@ -92,6 +101,24 @@ declare global {
         prototype: HTMLMyMenuDemoElement;
         new (): HTMLMyMenuDemoElement;
     };
+    interface HTMLMyRadioElement extends Components.MyRadio, HTMLStencilElement {
+    }
+    var HTMLMyRadioElement: {
+        prototype: HTMLMyRadioElement;
+        new (): HTMLMyRadioElement;
+    };
+    interface HTMLMyRadioDemoElement extends Components.MyRadioDemo, HTMLStencilElement {
+    }
+    var HTMLMyRadioDemoElement: {
+        prototype: HTMLMyRadioDemoElement;
+        new (): HTMLMyRadioDemoElement;
+    };
+    interface HTMLMyRadioGroupElement extends Components.MyRadioGroup, HTMLStencilElement {
+    }
+    var HTMLMyRadioGroupElement: {
+        prototype: HTMLMyRadioGroupElement;
+        new (): HTMLMyRadioGroupElement;
+    };
     interface HTMLOldMyMenuElementEventMap {
         "pickedOption": MenuOption['value'];
     }
@@ -115,6 +142,9 @@ declare global {
         "my-component": HTMLMyComponentElement;
         "my-menu": HTMLMyMenuElement;
         "my-menu-demo": HTMLMyMenuDemoElement;
+        "my-radio": HTMLMyRadioElement;
+        "my-radio-demo": HTMLMyRadioDemoElement;
+        "my-radio-group": HTMLMyRadioGroupElement;
         "old-my-menu": HTMLOldMyMenuElement;
     }
 }
@@ -144,6 +174,15 @@ declare namespace LocalJSX {
     }
     interface MyMenuDemo {
     }
+    interface MyRadio {
+        "checked"?: boolean;
+        "value": string;
+    }
+    interface MyRadioDemo {
+    }
+    interface MyRadioGroup {
+        "checked"?: boolean;
+    }
     interface OldMyMenu {
         "onPickedOption"?: (event: OldMyMenuCustomEvent<MenuOption['value']>) => void;
         "options"?: MenuOption[];
@@ -154,6 +193,9 @@ declare namespace LocalJSX {
         "my-component": MyComponent;
         "my-menu": MyMenu;
         "my-menu-demo": MyMenuDemo;
+        "my-radio": MyRadio;
+        "my-radio-demo": MyRadioDemo;
+        "my-radio-group": MyRadioGroup;
         "old-my-menu": OldMyMenu;
     }
 }
@@ -166,6 +208,9 @@ declare module "@stencil/core" {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "my-menu": LocalJSX.MyMenu & JSXBase.HTMLAttributes<HTMLMyMenuElement>;
             "my-menu-demo": LocalJSX.MyMenuDemo & JSXBase.HTMLAttributes<HTMLMyMenuDemoElement>;
+            "my-radio": LocalJSX.MyRadio & JSXBase.HTMLAttributes<HTMLMyRadioElement>;
+            "my-radio-demo": LocalJSX.MyRadioDemo & JSXBase.HTMLAttributes<HTMLMyRadioDemoElement>;
+            "my-radio-group": LocalJSX.MyRadioGroup & JSXBase.HTMLAttributes<HTMLMyRadioGroupElement>;
             "old-my-menu": LocalJSX.OldMyMenu & JSXBase.HTMLAttributes<HTMLOldMyMenuElement>;
         }
     }
