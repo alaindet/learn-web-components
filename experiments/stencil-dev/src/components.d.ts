@@ -45,6 +45,11 @@ export namespace Components {
         "checked": boolean;
         "name": string;
     }
+    interface MyRepeater {
+        "times": string;
+    }
+    interface MyRepeaterDemo {
+    }
     interface OldMyMenu {
         "closeDropdown": () => Promise<void>;
         "getDimensions": () => Promise<string>;
@@ -121,6 +126,18 @@ declare global {
         prototype: HTMLMyRadioGroupElement;
         new (): HTMLMyRadioGroupElement;
     };
+    interface HTMLMyRepeaterElement extends Components.MyRepeater, HTMLStencilElement {
+    }
+    var HTMLMyRepeaterElement: {
+        prototype: HTMLMyRepeaterElement;
+        new (): HTMLMyRepeaterElement;
+    };
+    interface HTMLMyRepeaterDemoElement extends Components.MyRepeaterDemo, HTMLStencilElement {
+    }
+    var HTMLMyRepeaterDemoElement: {
+        prototype: HTMLMyRepeaterDemoElement;
+        new (): HTMLMyRepeaterDemoElement;
+    };
     interface HTMLOldMyMenuElementEventMap {
         "pickedOption": MenuOption['value'];
     }
@@ -147,6 +164,8 @@ declare global {
         "my-radio": HTMLMyRadioElement;
         "my-radio-demo": HTMLMyRadioDemoElement;
         "my-radio-group": HTMLMyRadioGroupElement;
+        "my-repeater": HTMLMyRepeaterElement;
+        "my-repeater-demo": HTMLMyRepeaterDemoElement;
         "old-my-menu": HTMLOldMyMenuElement;
     }
 }
@@ -186,6 +205,11 @@ declare namespace LocalJSX {
         "checked"?: boolean;
         "name": string;
     }
+    interface MyRepeater {
+        "times"?: string;
+    }
+    interface MyRepeaterDemo {
+    }
     interface OldMyMenu {
         "onPickedOption"?: (event: OldMyMenuCustomEvent<MenuOption['value']>) => void;
         "options"?: MenuOption[];
@@ -199,6 +223,8 @@ declare namespace LocalJSX {
         "my-radio": MyRadio;
         "my-radio-demo": MyRadioDemo;
         "my-radio-group": MyRadioGroup;
+        "my-repeater": MyRepeater;
+        "my-repeater-demo": MyRepeaterDemo;
         "old-my-menu": OldMyMenu;
     }
 }
@@ -214,6 +240,8 @@ declare module "@stencil/core" {
             "my-radio": LocalJSX.MyRadio & JSXBase.HTMLAttributes<HTMLMyRadioElement>;
             "my-radio-demo": LocalJSX.MyRadioDemo & JSXBase.HTMLAttributes<HTMLMyRadioDemoElement>;
             "my-radio-group": LocalJSX.MyRadioGroup & JSXBase.HTMLAttributes<HTMLMyRadioGroupElement>;
+            "my-repeater": LocalJSX.MyRepeater & JSXBase.HTMLAttributes<HTMLMyRepeaterElement>;
+            "my-repeater-demo": LocalJSX.MyRepeaterDemo & JSXBase.HTMLAttributes<HTMLMyRepeaterDemoElement>;
             "old-my-menu": LocalJSX.OldMyMenu & JSXBase.HTMLAttributes<HTMLOldMyMenuElement>;
         }
     }
