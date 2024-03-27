@@ -15,6 +15,8 @@ export namespace Components {
     }
     interface MyBadgeDemo {
     }
+    interface MyCard {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -78,6 +80,12 @@ declare global {
     var HTMLMyBadgeDemoElement: {
         prototype: HTMLMyBadgeDemoElement;
         new (): HTMLMyBadgeDemoElement;
+    };
+    interface HTMLMyCardElement extends Components.MyCard, HTMLStencilElement {
+    }
+    var HTMLMyCardElement: {
+        prototype: HTMLMyCardElement;
+        new (): HTMLMyCardElement;
     };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
@@ -158,6 +166,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "my-badge": HTMLMyBadgeElement;
         "my-badge-demo": HTMLMyBadgeDemoElement;
+        "my-card": HTMLMyCardElement;
         "my-component": HTMLMyComponentElement;
         "my-menu": HTMLMyMenuElement;
         "my-menu-demo": HTMLMyMenuDemoElement;
@@ -174,6 +183,8 @@ declare namespace LocalJSX {
         "type"?: 'success' | 'info' | 'error';
     }
     interface MyBadgeDemo {
+    }
+    interface MyCard {
     }
     interface MyComponent {
         /**
@@ -217,6 +228,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "my-badge": MyBadge;
         "my-badge-demo": MyBadgeDemo;
+        "my-card": MyCard;
         "my-component": MyComponent;
         "my-menu": MyMenu;
         "my-menu-demo": MyMenuDemo;
@@ -234,6 +246,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "my-badge": LocalJSX.MyBadge & JSXBase.HTMLAttributes<HTMLMyBadgeElement>;
             "my-badge-demo": LocalJSX.MyBadgeDemo & JSXBase.HTMLAttributes<HTMLMyBadgeDemoElement>;
+            "my-card": LocalJSX.MyCard & JSXBase.HTMLAttributes<HTMLMyCardElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "my-menu": LocalJSX.MyMenu & JSXBase.HTMLAttributes<HTMLMyMenuElement>;
             "my-menu-demo": LocalJSX.MyMenuDemo & JSXBase.HTMLAttributes<HTMLMyMenuDemoElement>;

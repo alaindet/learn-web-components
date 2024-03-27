@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  padding: 1rem;
+  max-width: min(400px, 95vw);
+}
+
+.my-card__header:not(:empty) {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+/* .my-card__body:not(:empty) {
+  
+} */
+
+.my-card__footer:not(:empty) {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 2px solid #eee;
+}
